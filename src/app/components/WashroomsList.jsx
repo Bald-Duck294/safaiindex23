@@ -58,7 +58,7 @@ function WashroomsList() {
 
   const handleView = (id) => {
     // Navigate to washroom detail page
-    window.location.href = `/washroom/${id}`;
+    window.location.href = `/item/${id}`;
   };
 
   const handleEdit = (id) => {
