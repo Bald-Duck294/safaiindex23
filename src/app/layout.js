@@ -1,18 +1,13 @@
 // app/layout.jsx
-// This is a Server Component by default, but can contain Client Components.
 
 import './globals.css'; // Your global styles
-import { Inter } from 'next/font/google'; // Example font import
+import { Inter } from 'next/font/google';
 
-import Header from './components/Header';
-import Footer from './components/Footer'; // Import Footer
-import LayoutWrapper from './LayoutWrapper'; // We'll create this for state management
-import Sidebar from './components/Sidebar';
-
+import LayoutWrapper from './LayoutWrapper'; 
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
-  title: 'Toilet Review System', // Moved from Head in Home
+  title: 'Safai Index ', 
   description: 'Find and review public washrooms',
 };
 

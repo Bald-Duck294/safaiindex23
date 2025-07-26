@@ -1,14 +1,17 @@
 // app/page.jsx
-
-import WashroomsList from "../components/WashroomsList";
+import { redirect } from "next/navigation";
 
 
 export default function Home() {
 
+    redirect("/dashboard");
+
   return (
     <>
 
-      <WashroomsList />
+    <h1>DashBoard</h1>
+
+      {/* <WashroomsList /> */}
     </>
   );
 }

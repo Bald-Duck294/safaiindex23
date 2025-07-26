@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import LocationsApi from '@/lib/api/LocationApi';
 const SingleLocation = () => {
+  console.log('in single locations')
   const [location, setLocation] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);

@@ -1,5 +1,4 @@
 import Image from "next/image";
-import WashroomsList from "./components/WashroomsList";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Sidebar from "./components/Sidebar";

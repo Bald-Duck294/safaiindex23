@@ -3,19 +3,20 @@ import React from 'react';
 
 const Header = () => {
   return (
-    <header className="bg-gradient-to-r from-blue-600 to-blue-800 text-white p-4 shadow-md rounded-b-lg">
+    <header className="bg-slate-50 text-slate-800 p-[1.1rem] shadow-md border-b border-slate-200">
       <div className="container mx-auto flex justify-between items-center px-4">
-        <h1 className="text-3xl font-bold tracking-tight">Safai Index</h1>
-        {/* Navigation (optional, can be expanded) */}
+        <h1 className="text-2xl font-semibold tracking-tight text-slate-700">Safai Index</h1>
         <nav>
           <ul className="flex space-x-6">
-            {/* Example Navigation Links (can be uncommented and expanded) */}
-            {/*
-            <li><a href="#" className="hover:text-blue-200 transition duration-300">Home</a></li>
-            <li><a href="#" className="hover:text-blue-200 transition duration-300">About</a></li>
-            <li><a href="#" className="hover:text-blue-200 transition duration-300">Services</a></li>
-            <li><a href="#" className="hover:text-blue-200 transition duration-300">Contact</a></li>
-            */}
+            <li>
+              <a 
+                href="#" 
+                className="text-slate-600 hover:text-slate-900 transition duration-200"
+              >
+                Home
+              </a>
+            </li>
+            {/* Add more links if needed */}
           </ul>
         </nav>
       </div>
