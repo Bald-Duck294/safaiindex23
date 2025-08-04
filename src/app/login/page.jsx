@@ -31,7 +31,7 @@ export default function LoginPage() {
       localStorage.setItem("cleaner_user", JSON.stringify(data.user));
       alert("Login successful!");
 
-      router.push("/"); // ✅ redirect to home
+      router.push("/completed-tasks"); // ✅ redirect to home
     } catch (err) {
       setError(err.message);
     } finally {
