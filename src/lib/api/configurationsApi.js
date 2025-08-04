@@ -19,7 +19,14 @@ import API_BASE_URL from "../utils/Constant";
 // lib/api/configurationsApi.js
 // import axios from 'axios';
 
-export const fetchToiletFeatures = async () => {
-  const res = await axios.get(`${API_BASE_URL}/configurations/Toilet_Features`);
+export const fetchToiletFeaturesByName = async (name) => {
+  const res = await axios.get(`${API_BASE_URL}/configurations/${name}`);
   return res.data;
 };
+
+export const fetchToiletFeaturesById = async (id) => {
+  console.log('config id ' , id)
+  const res = await axios.get(`${API_BASE_URL}/configurations/id/${id}`);
+  return res.data;
+};
+

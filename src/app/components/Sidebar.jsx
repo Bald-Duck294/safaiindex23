@@ -1,181 +1,64 @@
-// 'use client';
-
-// import React, { useState } from 'react';
-// import {
-//   Home,
-//   FileText,
-//   BarChart3,
-//   Settings,
-//   ChevronLeft,
-//   ChevronRight
-// } from 'lucide-react';
-
-// const Sidebar = () => {
-//   const [isOpen, setIsOpen] = useState(true);
-
-//   const menuItems = [
-//     { icon: Home, label: 'Dashboard', href: '/dashboard' },
-//     { icon: FileText, label: 'Washrooms', href: '/washrooms' },
-//     { icon: BarChart3, label: 'Reports', href: '/reports' },
-//     { icon: Settings, label: 'Settings', href: '/settings' },
-//   ];
-
-//   const toggleSidebar = () => {
-//     setIsOpen(!isOpen);
-//   };
-
-//   return (
-//     <div className="relative">
-//       {/* Sidebar Container */}
-//       <div
-//         className={`
-//           fixed left-0 top-0 h-screen bg-slate-900 text-white shadow-2xl z-50
-//           transition-all duration-300 ease-in-out
-//           ${isOpen ? 'w-64' : 'w-16'}
-//         `}
-//       >
-//         {/* Header */}
-//         <div className="flex items-center justify-between p-4 border-b border-slate-700">
-//           <div className={`transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'}`}>
-//             {isOpen && (
-//               <h1 className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-//                 Dashboard
-//               </h1>
-//             )}
-//           </div>
-
-//           {/* Toggle Button */}
-//           <button
-//             onClick={toggleSidebar}
-//             className="p-2 rounded-lg cursor-pointer hover:bg-slate-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
-//             aria-label={isOpen ? 'Collapse sidebar' : 'Expand sidebar'}
-//           >
-//             {isOpen ? (
-//               <ChevronLeft size={20} />
-//             ) : (
-//               <ChevronRight size={20} />
-//             )}
-//           </button>
-//         </div>
-
-//         {/* Navigation Menu */}
-//         <nav className="mt-6 px-2">
-//           <ul className="space-y-2">
-//             {menuItems.map((item, index) => {
-//               const IconComponent = item.icon;
-//               return (
-//                 <li key={index}>
-//                   <a
-//                     href={item.href}
-//                     className={`
-//                       flex items-center px-3 py-3 rounded-lg text-slate-300 hover:text-white
-//                       hover:bg-slate-800 transition-all duration-200 group
-//                       focus:outline-none focus:ring-2 focus:ring-blue-500
-//                       ${!isOpen ? 'justify-center' : ''}
-//                     `}
-//                   >
-//                     <IconComponent
-//                       size={20}
-//                       className="flex-shrink-0 group-hover:scale-110 transition-transform duration-200"
-//                     />
-
-//                     {isOpen && (
-//                       <span className="ml-3 font-medium transition-opacity duration-300">
-//                         {item.label}
-//                       </span>
-//                     )}
-
-//                     {/* Tooltip for collapsed state */}
-//                     {!isOpen && (
-//                       <div className="absolute left-16 bg-slate-800 text-white px-2 py-1 rounded-md text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10">
-//                         {item.label}
-//                       </div>
-//                     )}
-//                   </a>
-//                 </li>
-//               );
-//             })}
-//           </ul>
-//         </nav>
-
-//         {/* Footer */}
-//         <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-slate-700">
-//           <div className={`transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'}`}>
-//             {isOpen && (
-//               <div className="flex items-center space-x-3">
-//                 <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
-//                   <span className="text-sm font-bold">JD</span>
-//                 </div>
-//                 <div>
-//                   <p className="text-sm font-medium">John Doe</p>
-//                   <p className="text-xs text-slate-400">Administrator</p>
-//                 </div>
-//               </div>
-//             )}
-//           </div>
-//         </div>
-//       </div>
-
-//       {/* Overlay for mobile */}
-//       {isOpen && (
-//         <div
-//           className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
-//           onClick={toggleSidebar}
-//         />
-//       )}
-
-//       {/* Main Content Area Spacer */}
-//       <div className={`transition-all duration-300 ${isOpen ? 'ml-64' : 'ml-16'}`}>
-//         {/* Demo content */}
-//         <div className="p-1 min-h-screen bg-slate-50">
-
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Sidebar;
-
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Home,
-  FileText,
-  BarChart3,
-  Settings,
+  Building2,
+  List,
+  ClipboardList,
   MapPin,
   Users,
+  Settings,
   LogOut,
   ChevronLeft,
   ChevronRight,
   ChevronDown,
   ChevronUp,
   Plus,
-  List,
+  Folder,
+  FolderPlus,
+  Bath,
+  Star,
+  FileBarChart,
+  Menu,
+  X,
+  UserCheck,
+  CheckCircle,
 } from "lucide-react";
 
-const Sidebar = () => {
-  const [isOpen, setIsOpen] = useState(true);
+const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const [openDropdowns, setOpenDropdowns] = useState({});
+  const [isMobile, setIsMobile] = useState(false);
+  const [user, setUser] = useState(null);
 
-  const menuItems = [
+  useEffect(() => {
+    const storedUser = localStorage.getItem("cleaner_user");
+    if (storedUser) {
+      try {
+        setUser(JSON.parse(storedUser));
+      } catch (err) {
+        console.error("Error parsing user from localStorage");
+      }
+    }
+  }, []);
+
+  const isAdmin = user?.role_id === 1;
+
+  const adminMenuItems = [
     { icon: Home, label: "Dashboard", href: "/dashboard" },
-    { icon: MapPin, label: "Locations", href: "/locations" },
-
+    { icon: Building2, label: "Locations", href: "/locations" },
     {
-      icon: MapPin,
+      icon: Folder,
       label: "Location Types",
       hasDropdown: true,
       key: "locationTypes",
       children: [
         { icon: List, label: "View Location Types", href: "/location-types" },
-        { icon: Plus, label: "Add Location Type", href: "/location-types/add" },
+        { icon: FolderPlus, label: "Add Location Type", href: "/location-types/add" },
       ],
     },
     {
-      icon: FileText,
+      icon: Bath,
       label: "Washrooms",
       hasDropdown: true,
       key: "washrooms",
@@ -184,14 +67,29 @@ const Sidebar = () => {
         { icon: Plus, label: "Add Washroom", href: "/add-location" },
       ],
     },
-    { icon: BarChart3, label: "Reports", href: "/reports" },
-    { icon: Users, label: "Users", href: "/users" },
-    { icon: Settings, label: "Settings", href: "/settings" },
+    { icon: UserCheck, label: "Cleaner Review", href: "/cleaner-review" },
+    { icon: Star, label: "User Review", href: "/user-review" },
   ];
 
-  const toggleSidebar = () => {
-    setIsOpen(!isOpen);
-  };
+  const cleanerMenuItems = [
+    { icon: UserCheck, label: "Cleaner Review", href: "/cleaner-review" },
+    { icon: CheckCircle, label: "Completed Tasks", href: "/completed-tasks" },
+  ];
+
+  const menuItems = isAdmin ? adminMenuItems : cleanerMenuItems;
+
+  useEffect(() => {
+    const checkMobile = () => {
+      const mobile = window.innerWidth < 1024;
+      setIsMobile(mobile);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
   const toggleDropdown = (key) => {
     setOpenDropdowns((prev) => ({
@@ -202,40 +100,76 @@ const Sidebar = () => {
 
   const handleItemClick = (item) => {
     if (item.hasDropdown) {
-      toggleDropdown(item.key);
+      if (!sidebarOpen) {
+        setSidebarOpen(true);
+        setTimeout(() => {
+          toggleDropdown(item.key);
+        }, 100);
+      } else {
+        toggleDropdown(item.key);
+      }
     } else {
-      // Handle navigation for regular items
       window.location.href = item.href;
+      if (isMobile) setSidebarOpen(false);
     }
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("cleaner_user");
+    window.location.href = "/login"; // or use router.push if using next/router
+  };
+
+  const getInitials = () => {
+    if (!user?.name) return "U";
+    return user.name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase();
+  };
+
   return (
-    <div className="relative">
-      {/* Sidebar Container */}
+    <>
+      {isMobile && (
+        <button
+          onClick={toggleSidebar}
+          className="fixed top-4 left-4 z-[60] p-2 rounded-lg bg-white text-slate-900 hover:bg-slate-100 shadow-lg lg:hidden transition-all duration-200 hover:scale-105"
+        >
+          {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
+        </button>
+      )}
+
       <div
         className={`
-    fixed left-0 top-0 h-screen bg-slate-100 text-slate-800 shadow-lg z-50
-    transition-all duration-300 ease-in-out
-    ${isOpen ? "w-64" : "w-16"}
-  `}
+          relative bg-white text-slate-900 shadow-xl border-r border-slate-200
+          transition-all duration-300 ease-in-out h-full flex flex-col
+          ${sidebarOpen ? "w-64" : "w-16"}
+          ${isMobile && !sidebarOpen ? "hidden" : ""}
+        `}
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-slate-200 bg-slate-50">
-          {isOpen && (
-            <h1 className="text-lg font-semibold text-slate-700 tracking-wide">
+        <div className="flex items-center justify-between p-4 border-b border-slate-200 bg-slate-50 min-h-[60px]">
+          {sidebarOpen && (
+            <h1 className="text-lg font-semibold text-slate-900 tracking-wide">
               Dashboard
             </h1>
           )}
-          <button
-            onClick={toggleSidebar}
-            className="p-2 rounded-lg hover:bg-slate-200 transition hover:scale-105"
-          >
-            {isOpen ? <ChevronLeft size={20} /> : <ChevronRight size={20} />}
-          </button>
+          {!isMobile && (
+            <button
+              onClick={toggleSidebar}
+              className="p-2 rounded-lg hover:bg-slate-200 transition-all duration-200 hover:scale-105 group"
+            >
+              {sidebarOpen ? (
+                <ChevronLeft size={20} className="group-hover:text-slate-600" />
+              ) : (
+                <ChevronRight size={20} className="group-hover:text-slate-600" />
+              )}
+            </button>
+          )}
         </div>
 
-        {/* Navigation Menu */}
-        <nav className="mt-6 px-2 flex-1 overflow-y-auto">
+        {/* Navigation */}
+        <nav className="flex-1 overflow-y-auto p-2 mt-4">
           <ul className="space-y-1">
             {menuItems.map((item, index) => {
               const IconComponent = item.icon;
@@ -243,35 +177,35 @@ const Sidebar = () => {
 
               return (
                 <li key={index}>
-                  {/* Main Menu Item */}
                   <div
                     onClick={() => handleItemClick(item)}
                     className={`
-    flex items-center px-3 py-2 rounded-md text-slate-700 hover:text-slate-900 
-    hover:bg-slate-200 transition-all duration-200 group cursor-pointer
-    ${!isOpen ? "justify-center" : ""}
-    ${isDropdownOpen && isOpen ? "bg-slate-200 text-slate-900" : ""}
-  `}
+                      flex items-center px-3 py-3 rounded-lg text-slate-600 
+                      hover:text-slate-900 hover:bg-slate-100 transition-all duration-200 
+                      group cursor-pointer relative overflow-hidden
+                      ${!sidebarOpen ? "justify-center" : ""}
+                      ${isDropdownOpen && sidebarOpen ? "bg-slate-100 text-slate-900" : ""}
+                      hover:shadow-sm
+                    `}
                   >
-                    <IconComponent
-                      size={20}
-                      className="flex-shrink-0 group-hover:scale-110 transition-transform duration-200 group-hover:text-cyan-400"
-                    />
+                    <div className="absolute inset-0 bg-gradient-to-r from-slate-100 to-slate-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"></div>
 
-                    {isOpen && (
+                    <IconComponent size={20} className="relative z-10 flex-shrink-0 group-hover:scale-110 transition-all duration-200 group-hover:text-slate-700" />
+
+                    {sidebarOpen && (
                       <>
-                        <span className="ml-3 font-medium transition-opacity duration-300 flex-1">
+                        <span className="relative z-10 ml-3 font-medium transition-all duration-300 flex-1 group-hover:translate-x-1">
                           {item.label}
                         </span>
 
                         {item.hasDropdown && (
-                          <div className="ml-auto">
+                          <div className="relative z-10 ml-auto">
                             {isDropdownOpen ? (
-                              <ChevronUp size={16} className="text-cyan-400" />
+                              <ChevronUp size={16} className="text-slate-500 transition-transform duration-200" />
                             ) : (
                               <ChevronDown
                                 size={16}
-                                className="text-slate-400 group-hover:text-cyan-400"
+                                className="text-slate-400 group-hover:text-slate-600 transition-all duration-200 group-hover:rotate-180"
                               />
                             )}
                           </div>
@@ -279,40 +213,34 @@ const Sidebar = () => {
                       </>
                     )}
 
-                    {/* Tooltip for collapsed state */}
-                    {!isOpen && (
-                      <div className="absolute left-16 bg-white border border-slate-300 text-slate-800 px-2 py-1 rounded-md text-sm shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10">
+                    {!sidebarOpen && (
+                      <div className="absolute left-16 bg-slate-800 text-white px-3 py-2 rounded-lg text-sm shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none whitespace-nowrap z-20 transform translate-x-2 group-hover:translate-x-0">
                         {item.label}
+                        <div className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-1 w-2 h-2 bg-slate-800 rotate-45"></div>
                       </div>
                     )}
                   </div>
 
-                  {/* Dropdown Menu */}
-                  {item.hasDropdown && isOpen && (
-                    <div
-                      className={`
-                        overflow-hidden transition-all duration-300 ease-in-out
-                        ${
-                          isDropdownOpen
-                            ? "max-h-40 opacity-100"
-                            : "max-h-0 opacity-0"
-                        }
-                      `}
-                    >
-                      <ul className="mt-1 ml-4 space-y-1 border-l-2 border-slate-700/50 pl-4">
+                  {item.hasDropdown && sidebarOpen && (
+                    <div className={`${isDropdownOpen ? "max-h-40 opacity-100 mt-1" : "max-h-0 opacity-0"} overflow-hidden transition-all duration-300 ease-in-out`}>
+                      <ul className="ml-4 space-y-1 border-l-2 border-slate-200 pl-4 relative">
+                        <div className={`absolute left-0 top-0 w-0.5 bg-gradient-to-b from-slate-400 to-slate-200 transition-all duration-500 ${isDropdownOpen ? "h-full" : "h-0"}`}></div>
                         {item.children?.map((child, childIndex) => {
                           const ChildIcon = child.icon;
                           return (
-                            <li key={childIndex}>
+                            <li
+                              key={childIndex}
+                              className={`transform transition-all duration-300 ${isDropdownOpen ? "translate-x-0 opacity-100" : "-translate-x-4 opacity-0"}`}
+                              style={{ transitionDelay: `${childIndex * 50}ms` }}
+                            >
                               <a
                                 href={child.href}
-                                className="flex items-center px-3 py-2 rounded-md text-slate-500 hover:text-slate-800 hover:bg-slate-200 transition-all duration-200 group text-sm"
+                                onClick={() => isMobile && setSidebarOpen(false)}
+                                className="flex items-center px-3 py-2 rounded-lg text-slate-500 hover:text-slate-800 hover:bg-slate-50 transition-all duration-200 group text-sm relative overflow-hidden"
                               >
-                                <ChildIcon
-                                  size={16}
-                                  className="flex-shrink-0 group-hover:scale-110 transition-transform duration-200"
-                                />
-                                <span className="ml-2 font-medium">
+                                <div className="absolute inset-0 bg-gradient-to-r from-slate-50 to-slate-25 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"></div>
+                                <ChildIcon size={16} className="relative z-10 flex-shrink-0 group-hover:scale-110 transition-all duration-200 group-hover:text-slate-600" />
+                                <span className="relative z-10 ml-2 font-medium group-hover:translate-x-1 transition-transform duration-200">
                                   {child.label}
                                 </span>
                               </a>
@@ -330,50 +258,41 @@ const Sidebar = () => {
 
         {/* Footer */}
         <div className="border-t border-slate-200 bg-slate-50">
-          {/* User Profile */}
           <div className="p-4">
-            <div
-              className={`transition-opacity duration-300 ${
-                isOpen ? "opacity-100" : "opacity-0"
-              }`}
-            >
-              {isOpen && (
-                <div className="flex items-center space-x-3 mb-3">
-                  <div className="w-8 h-8 bg-slate-300 rounded-full flex items-center justify-center">
-                    <span className="text-sm font-bold">JD</span>
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-slate-700">
-                      John Doe
-                    </p>
-                    <p className="text-xs text-slate-500">Administrator</p>
-                  </div>
+            {sidebarOpen && (
+              <div className="flex items-center space-x-3 mb-3 p-2 rounded-lg hover:bg-slate-100 transition-all duration-200 group cursor-pointer">
+                <div className="w-8 h-8 bg-slate-300 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
+                  <span className="text-sm font-bold text-slate-700">{getInitials()}</span>
                 </div>
-              )}
-            </div>
+                <div>
+                  <p className="text-sm font-medium text-slate-900 group-hover:text-slate-700 transition-colors duration-200">
+                    {user?.name || "Unknown"}
+                  </p>
+                  <p className="text-xs text-slate-500">
+                    {isAdmin ? "Administrator" : "Cleaner"}
+                  </p>
+                </div>
+              </div>
+            )}
 
-            {/* Logout Button */}
             <button
-              onClick={() => {
-                /* Handle logout */
-              }}
-              className={`
-    w-full flex items-center px-3 py-2 rounded-md text-slate-600 hover:text-red-500 
-    hover:bg-red-100 transition-all duration-200 group
-    ${!isOpen ? "justify-center" : ""}
-  `}
+              onClick={handleLogout}
+              className={`w-full flex items-center px-3 py-2 rounded-lg text-slate-600 hover:text-red-500 
+                hover:bg-red-50 transition-all duration-200 group relative overflow-hidden
+                ${!sidebarOpen ? "justify-center" : ""}
+                hover:shadow-sm`}
             >
-              <LogOut
-                size={20}
-                className="flex-shrink-0 group-hover:scale-110 transition-transform duration-200"
-              />
-
-              {isOpen && <span className="ml-3 font-medium">Logout</span>}
-
-              {/* Tooltip for collapsed state */}
-              {!isOpen && (
-                <div className="absolute left-16 bg-slate-800 text-white px-2 py-1 rounded-md text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10 border border-slate-600">
+              <div className="absolute inset-0 bg-gradient-to-r from-red-50 to-red-25 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"></div>
+              <LogOut size={20} className="relative z-10 flex-shrink-0 group-hover:scale-110 transition-all duration-200" />
+              {sidebarOpen && (
+                <span className="relative z-10 ml-3 font-medium group-hover:translate-x-1 transition-transform duration-200">
                   Logout
+                </span>
+              )}
+              {!sidebarOpen && (
+                <div className="absolute left-16 bg-slate-800 text-white px-3 py-2 rounded-lg text-sm shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none whitespace-nowrap z-20 transform translate-x-2 group-hover:translate-x-0">
+                  Logout
+                  <div className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-1 w-2 h-2 bg-slate-800 rotate-45"></div>
                 </div>
               )}
             </button>
@@ -381,21 +300,11 @@ const Sidebar = () => {
         </div>
       </div>
 
-      {/* Overlay for mobile */}
-      {isOpen && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
-          onClick={toggleSidebar}
-        />
+      {/* Mobile overlay */}
+      {sidebarOpen && isMobile && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-40" onClick={toggleSidebar} />
       )}
-
-      {/* Main Content Area Spacer */}
-      <div
-        className={`transition-all duration-300 ${isOpen ? "ml-64" : "ml-16"}`}
-      >
-        {/* Demo content with suggested header colors */}
-      </div>
-    </div>
+    </>
   );
 };
 
