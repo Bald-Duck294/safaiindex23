@@ -1,17 +1,20 @@
-// app/page.jsx
-import { redirect } from "next/navigation";
+"use client";
 
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
 
-    redirect("/dashboard");
+  useEffect(() => {
+    const user = localStorage.getItem("cleaner_user");
 
-  return (
-    <>
+    if (!user) {
+      router.replace("/login"); // not logged in
+    } else {
+      router.replace("/completed-tasks"); // logged in
+    }
+  }, []);
 
-    <h1>DashBoard</h1>
-
-      {/* <WashroomsList /> */}
-    </>
-  );
+  return null; // Optional: loader or blank
 }

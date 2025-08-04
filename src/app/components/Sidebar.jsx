@@ -78,16 +78,32 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
   const menuItems = isAdmin ? adminMenuItems : cleanerMenuItems;
 
-  useEffect(() => {
-    const checkMobile = () => {
-      const mobile = window.innerWidth < 1024;
-      setIsMobile(mobile);
-    };
+  // useEffect(() => {
+  //   const checkMobile = () => {
+  //     const mobile = window.innerWidth < 1024;
+  //     setIsMobile(mobile);
+  //   };
 
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
+  //   checkMobile();
+  //   window.addEventListener("resize", checkMobile);
+  //   return () => window.removeEventListener("resize", checkMobile);
+  // }, []);
+
+
+  useEffect(() => {
+  const checkMobile = () => {
+    const mobile = window.innerWidth < 1024;
+    setIsMobile(mobile);
+    if (mobile) {
+      setSidebarOpen(false); // close sidebar on mobile
+    }
+  };
+
+  checkMobile();
+  window.addEventListener("resize", checkMobile);
+  return () => window.removeEventListener("resize", checkMobile);
+}, []);
+
 
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
