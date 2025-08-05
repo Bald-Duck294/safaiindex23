@@ -16,11 +16,14 @@ export default function LoginPage() {
     setError("");
 
     try {
-      const res = await fetch("https://safai-index-backend.onrender.com/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone, password }),
-      });
+      const res = await fetch(
+        "https://safai-index-backend.onrender.com/api/login",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ phone, password }),
+        }
+      );
 
       const data = await res.json();
 
@@ -28,10 +31,13 @@ export default function LoginPage() {
         throw new Error(data.error || "Login failed");
       }
 
+      console.log("user", data?.user?.role_id == 1);
       localStorage.setItem("cleaner_user", JSON.stringify(data.user));
       alert("Login successful!");
 
-      router.push("/completed-tasks"); // ✅ redirect to home
+      data.user.role_id == 1
+        ? router.push("/")
+        : router.push("/completed-tasks"); // ✅ redirect to home
     } catch (err) {
       setError(err.message);
     } finally {
@@ -41,7 +47,10 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-gray-100">
-      <form onSubmit={handleLogin} className="bg-white shadow-md rounded p-6 w-full max-w-md">
+      <form
+        onSubmit={handleLogin}
+        className="bg-white shadow-md rounded p-6 w-full max-w-md"
+      >
         <h2 className="text-2xl font-bold mb-4">Cleaner Login</h2>
 
         {error && <div className="text-red-600 mb-3">{error}</div>}
@@ -64,7 +73,9 @@ export default function LoginPage() {
 
         <button
           type="submit"
-          className={`w-full p-2 rounded text-white ${loading ? "bg-gray-400" : "bg-blue-600 hover:bg-blue-700"}`}
+          className={`w-full p-2 rounded text-white ${
+            loading ? "bg-gray-400" : "bg-blue-600 hover:bg-blue-700"
+          }`}
           disabled={loading}
         >
           {loading ? "Logging in..." : "Login"}

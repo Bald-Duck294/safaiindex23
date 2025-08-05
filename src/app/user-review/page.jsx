@@ -470,8 +470,6 @@
 //   );
 // }
 
-
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -559,7 +557,8 @@ const translations = {
     },
     messages: {
       thankYou: "Thank You!",
-      successMessage: "Your washroom review has been submitted successfully. Thank you for helping improve public facilities!",
+      successMessage:
+        "Your washroom review has been submitted successfully. Thank you for helping improve public facilities!",
       fillRequired: "Please fill all required fields and set a location.",
       submitError: "Something went wrong. Please try again.",
       locationRequired: "Location is a required field.",
@@ -610,7 +609,8 @@ const translations = {
     },
     messages: {
       thankYou: "धन्यवाद!",
-      successMessage: "आपकी शौचालय समीक्षा सफलतापूर्वक जमा हो गई है। सार्वजनिक सुविधाओं को बेहतर बनाने में मदद करने के लिए धन्यवाद!",
+      successMessage:
+        "आपकी शौचालय समीक्षा सफलतापूर्वक जमा हो गई है। सार्वजनिक सुविधाओं को बेहतर बनाने में मदद करने के लिए धन्यवाद!",
       fillRequired: "कृपया सभी आवश्यक फ़ील्ड भरें और स्थान सेट करें।",
       submitError: "कुछ गलत हुआ। कृपया फिर से कोशिश करें।",
       locationRequired: "स्थान एक आवश्यक फ़ील्ड है।",
@@ -661,7 +661,8 @@ const translations = {
     },
     messages: {
       thankYou: "धन्यवाद!",
-      successMessage: "तुमचे शौचालय पुनरावलोकन यशस्वीरित्या सबमिट झाले आहे. सार्वजनिक सुविधा सुधारण्यासाठी मदत केल्याबद्दल धन्यवाद!",
+      successMessage:
+        "तुमचे शौचालय पुनरावलोकन यशस्वीरित्या सबमिट झाले आहे. सार्वजनिक सुविधा सुधारण्यासाठी मदत केल्याबद्दल धन्यवाद!",
       fillRequired: "कृपया सर्व आवश्यक फील्ड भरा आणि स्थान सेट करा.",
       submitError: "काहीतरी चूक झाली. कृपया पुन्हा प्रयत्न करा.",
       locationRequired: "स्थान हे एक आवश्यक फील्ड आहे.",
@@ -775,8 +776,7 @@ export default function ReviewForm() {
         formData.append("images", img);
       });
 
-
-      console.log(formData , data , "dubmitssion data")
+      console.log(formData, data, "dubmitssion data");
 
       const res = await fetch("http://localhost:8000/api/reviews/user-review", {
         method: "POST",
@@ -844,7 +844,10 @@ export default function ReviewForm() {
             </select>
           </div>
         </div>
-        <form onSubmit={handleSubmission} className="p-6 sm:p-8 space-y-8">
+        <form
+          onSubmit={handleSubmit(handleSubmission)}
+          className="p-6 sm:p-8 space-y-8"
+        >
           <LocationDetector
             location={location}
             onLocationChange={handleLocationChange}
@@ -858,14 +861,16 @@ export default function ReviewForm() {
           <div className="grid md:grid-cols-3 gap-6">
             <div>
               <label className="flex items-center text-sm font-medium text-gray-700 mb-2">
-                <User className="h-4 w-4 mr-1" /> {translations[lang].fields.name}
+                <User className="h-4 w-4 mr-1" />{" "}
+                {translations[lang].fields.name}
               </label>
               <input
                 {...register("name")}
                 type="text"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-black"
                 placeholder={translations[lang].placeholders.name}
               />
+
               {errors.name && (
                 <p className="text-red-500 text-xs mt-1">
                   {errors.name.message}
@@ -875,12 +880,13 @@ export default function ReviewForm() {
 
             <div>
               <label className="flex items-center text-sm font-medium text-gray-700 mb-2">
-                <Mail className="h-4 w-4 mr-1" /> {translations[lang].fields.email}
+                <Mail className="h-4 w-4 mr-1" />{" "}
+                {translations[lang].fields.email}
               </label>
               <input
                 {...register("email")}
                 type="email"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-black"
                 placeholder={translations[lang].placeholders.email}
               />
               {errors.email && (
@@ -892,12 +898,13 @@ export default function ReviewForm() {
 
             <div>
               <label className="flex items-center text-sm font-medium text-gray-700 mb-2">
-                <Phone className="h-4 w-4 mr-1" /> {translations[lang].fields.phone}
+                <Phone className="h-4 w-4 mr-1" />{" "}
+                {translations[lang].fields.phone}
               </label>
               <input
                 {...register("phone")}
                 type="tel"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-black"
                 placeholder={translations[lang].placeholders.phone}
               />
               {errors.phone && (
@@ -942,8 +949,12 @@ export default function ReviewForm() {
                 >
                   <input
                     type="checkbox"
-                    checked={selectedReasons.includes(commonIndianWashroomIssues[index].id)}
-                    onChange={() => handleReasonToggle(commonIndianWashroomIssues[index].id)}
+                    checked={selectedReasons.includes(
+                      commonIndianWashroomIssues[index].id
+                    )}
+                    onChange={() =>
+                      handleReasonToggle(commonIndianWashroomIssues[index].id)
+                    }
                     className="mt-0.5 h-4 w-4 text-blue-600 rounded focus:ring-blue-500"
                   />
                   <span className="text-sm text-gray-700">{issueText}</span>
@@ -954,12 +965,13 @@ export default function ReviewForm() {
 
           <div>
             <label className="flex items-center text-sm font-medium text-gray-700 mb-2">
-              <MessageSquare className="h-4 w-4 mr-1" /> {translations[lang].fields.additional}
+              <MessageSquare className="h-4 w-4 mr-1" />{" "}
+              {translations[lang].fields.additional}
             </label>
             <textarea
               {...register("description")}
               rows={4}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 resize-none"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 resize-none text-black"
               placeholder={translations[lang].placeholders.description}
             />
           </div>
