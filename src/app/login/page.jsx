@@ -51,7 +51,7 @@ export default function LoginPage() {
         onSubmit={handleLogin}
         className="bg-white shadow-md rounded p-6 w-full max-w-md"
       >
-        <h2 className="text-2xl font-bold mb-4">Cleaner Login</h2>
+        <h2 className="text-2xl font-bold mb-4 text-black">Cleaner Login</h2>
 
         {error && <div className="text-red-600 mb-3">{error}</div>}
 
@@ -60,7 +60,7 @@ export default function LoginPage() {
           placeholder="Phone"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
-          className="w-full border p-2 mb-4 rounded"
+          className="w-full border border-black p-2 mb-4 rounded text-black placeholder:text-gray-500"
         />
 
         <input
@@ -68,7 +68,7 @@ export default function LoginPage() {
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full border p-2 mb-4 rounded"
+          className="w-full border border-black p-2 mb-4 rounded text-black placeholder:text-gray-500"
         />
 
         <button

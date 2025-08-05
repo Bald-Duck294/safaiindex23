@@ -1092,7 +1092,7 @@ export default function SubmitReview({ lang = "en" }) {
               value={name}
               onChange={handleNameChange}
               onBlur={() => setTouched((prev) => ({ ...prev, name: true }))}
-              className={`mt-1 w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 ${
+              className={`mt-1 w-full text-black px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 ${
                 errors.name && touched.name
                   ? "border-red-500 focus:ring-red-500"
                   : "border-gray-300 focus:ring-blue-500"
