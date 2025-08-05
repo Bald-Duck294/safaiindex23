@@ -435,7 +435,7 @@ export default function SubmitReview({ lang = "en" }) {
               value={name}
               onChange={handleNameChange}
               onBlur={() => setTouched((prev) => ({ ...prev, name: true }))}
-              className={`mt-1 w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 ${
+              className={`mt-1 w-full text-black px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 ${
                 errors.name && touched.name
                   ? "border-red-500 focus:ring-red-500"
                   : "border-gray-300 focus:ring-blue-500"
@@ -465,7 +465,7 @@ export default function SubmitReview({ lang = "en" }) {
               name="site_id"
               value={toiletIdFromUrl}
               readOnly
-              className="mt-1 w-full px-3 py-2 border rounded-md bg-gray-100 text-gray-600 shadow-sm"
+              className="mt-1 text-black w-full px-3 py-2 border rounded-md bg-gray-100  shadow-sm"
             />
           </div>
 
@@ -480,7 +480,7 @@ export default function SubmitReview({ lang = "en" }) {
               value={phone}
               onChange={handlePhoneChange}
               onBlur={() => setTouched((prev) => ({ ...prev, phone: true }))}
-              className={`mt-1 w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 ${
+              className={`mt-1 w-full px-3 py-2 text-black border rounded-md shadow-sm focus:outline-none focus:ring-2 ${
                 errors.phone && touched.phone
                   ? "border-red-500 focus:ring-red-500"
                   : "border-gray-300 focus:ring-blue-500"
@@ -553,7 +553,7 @@ export default function SubmitReview({ lang = "en" }) {
                     }}
                     className="form-checkbox text-blue-600"
                   />
-                  <span>{feature.label}</span>
+                  <span className="text-black">{feature.label}</span>
                 </label>
               ))}
             </div>
