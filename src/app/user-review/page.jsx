@@ -823,7 +823,7 @@ export default function ReviewForm() {
       formData.append("images", img);
     });
 
-    const res = await fetch("http://localhost:8000/api/reviews/user-review", {
+    const res = await fetch("https://safai-index-backend.onrender.com/api/reviews/user-review", {
       method: "POST",
       body: formData,
     });
