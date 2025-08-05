@@ -1,6 +1,6 @@
 // app/lib/cleanerReviewApi.js
 // import API_BASE_URL from "../utils/Constant";
-const API_BASE = "https://safai-index-backend.onrender.com";
+const API_BASE = "https://safai-index-backend.onrender.com/api";
 
 
 export async function getAllCleanerReviews() {

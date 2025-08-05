@@ -336,7 +336,7 @@ export default function SubmitReview({ lang = "en" }) {
       console.log(formData, "form data");
       console.log(selectedTasks, "selected task");
       const res = await fetch(
-        "https://safai-index-backend.onrender.com/cleaner-reviews",
+        "https://safai-index-backend.onrender.com/api/cleaner-reviews",
         {
           method: "POST",
           body: formData,
