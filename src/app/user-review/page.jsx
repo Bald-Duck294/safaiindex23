@@ -837,7 +837,7 @@ export default function ReviewForm() {
     setTimeout(() => setShowSuccess(false), 5000);
   } catch (err) {
     console.error(err);
-    alert(translations[lang].messages.submitError);
+    alert(err);
   } finally {
     setIsSubmitting(false);
   }
