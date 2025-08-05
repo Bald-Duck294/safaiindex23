@@ -747,56 +747,101 @@ export default function ReviewForm() {
     setValue("reason_ids", updated);
   };
 
-  const handleSubmission = async (e) => {
-    e.preventDefault();
+  // const handleSubmission = async (data) => {
+  //   // e.preventDefault();
 
-    const data = watch();
+  //   // const data = watch();
 
-    if (!data.name || !data.phone || !data.rating || !location) {
-      alert(translations[lang].messages.fillRequired);
-      return;
-    }
+  //   if (!data.name || !data.phone || !data.rating || !location) {
+  //     alert(translations[lang].messages.fillRequired);
+  //     return;
+  //   }
 
-    try {
-      setIsSubmitting(true);
+  //   try {
+  //     setIsSubmitting(true);
 
-      const formData = new FormData();
-      formData.append("name", data.name);
-      formData.append("email", data.email);
-      formData.append("phone", data.phone);
-      formData.append("rating", data.rating.toString());
-      formData.append("description", data.description || "");
-      formData.append("reason_ids", JSON.stringify(data.reason_ids));
-      formData.append("latitude", location.latitude.toString());
-      formData.append("longitude", location.longitude.toString());
-      formData.append("address", location.address || "");
-      formData.append("toilet_id", "1");
+  //     const formData = new FormData();
+  //     formData.append("name", data.name);
+  //     formData.append("email", data.email);
+  //     formData.append("phone", data.phone);
+  //     formData.append("rating", data.rating.toString());
+  //     formData.append("description", data.description || "");
+  //     formData.append("reason_ids", JSON.stringify(data.reason_ids));
+  //     formData.append("latitude", location.latitude.toString());
+  //     formData.append("longitude", location.longitude.toString());
+  //     formData.append("address", location.address || "");
+  //     formData.append("toilet_id", "1");
 
-      images.forEach((img) => {
-        formData.append("images", img);
-      });
+  //     images.forEach((img) => {
+  //       formData.append("images", img);
+  //     });
 
-      console.log(formData, data, "dubmitssion data");
+  //     console.log(formData, data, "dubmitssion data");
 
-      const res = await fetch("http://localhost:8000/api/reviews/user-review", {
-        method: "POST",
-        body: formData,
-      });
+  //     const res = await fetch("http://localhost:8000/api/reviews/user-review", {
+  //       method: "POST",
+  //       body: formData,
+  //     });
 
-      if (!res.ok) throw new Error("Failed to submit review");
+  //     if (!res.ok) throw new Error("Failed to submit review");
 
-      setShowSuccess(true);
-      reset();
-      setImages([]);
-      setLocation(null);
-      setTimeout(() => setShowSuccess(false), 5000);
-    } catch (err) {
-      console.error(err);
-      alert(translations[lang].messages.submitError);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  //     setShowSuccess(true);
+  //     reset();
+  //     setImages([]);
+  //     setLocation(null);
+  //     setTimeout(() => setShowSuccess(false), 5000);
+  //   } catch (err) {
+  //     console.error(err);
+  //     alert(translations[lang].messages.submitError);
+  //   } finally {
+  //     setIsSubmitting(false);
+  //   }
+  // };
+
+  const handleSubmission = async (data) => {
+  if (!data.name || !data.phone || !data.rating || !data.location) {
+    alert(translations[lang].messages.fillRequired);
+    return;
+  }
+
+  try {
+    setIsSubmitting(true);
+
+    const formData = new FormData();
+    formData.append("name", data.name);
+    formData.append("email", data.email);
+    formData.append("phone", data.phone);
+    formData.append("rating", data.rating.toString());
+    formData.append("description", data.description || "");
+    formData.append("reason_ids", JSON.stringify(data.reason_ids));
+    formData.append("latitude", data.location.latitude.toString());
+    formData.append("longitude", data.location.longitude.toString());
+    formData.append("address", data.location.address || "");
+    formData.append("toilet_id", "1");
+
+    images.forEach((img) => {
+      formData.append("images", img);
+    });
+
+    const res = await fetch("http://localhost:8000/api/reviews/user-review", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!res.ok) throw new Error("Failed to submit review");
+
+    setShowSuccess(true);
+    reset();
+    setImages([]);
+    setLocation(null);
+    setTimeout(() => setShowSuccess(false), 5000);
+  } catch (err) {
+    console.error(err);
+    alert(translations[lang].messages.submitError);
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   if (showSuccess) {
     return (
