@@ -511,7 +511,7 @@ export default function SubmitReview({ lang = "en" }) {
               value={remarks}
               onChange={handleRemarksChange}
               onBlur={() => setTouched((prev) => ({ ...prev, remarks: true }))}
-              className={`mt-1 w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 resize-none ${
+              className={`mt-1 text-black w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 resize-none ${
                 errors.remarks && touched.remarks
                   ? "border-red-500 focus:ring-red-500"
                   : "border-gray-300 focus:ring-blue-500"
@@ -525,7 +525,7 @@ export default function SubmitReview({ lang = "en" }) {
                   {errors.remarks}
                 </div>
               )}
-              <div className="text-xs text-gray-500 ml-auto">
+              <div className="text-xs text-black ml-auto">
                 {remarks.length}/250
               </div>
             </div>
