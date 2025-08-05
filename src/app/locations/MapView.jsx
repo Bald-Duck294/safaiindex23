@@ -170,11 +170,11 @@ const MapView = () => {
       const lng = place.geometry.location.lng();
 
       const locData = {
-        id:'34567',
-        latitude:place.geometry.location.lat(),
-        longitude:place.geometry.location.lng(),
-        averageRating: null
-      }
+        id: "34567",
+        latitude: place.geometry.location.lat(),
+        longitude: place.geometry.location.lng(),
+        averageRating: null,
+      };
 
       setFiltered([locData]);
       setCenter({ lat, lng });
@@ -282,6 +282,23 @@ const MapView = () => {
           ))}
 
           {selected && (
+            // <InfoWindow
+            //   position={{
+            //     lat: parseFloat(selected.latitude),
+            //     lng: parseFloat(selected.longitude),
+            //   }}
+            //   onCloseClick={() => setSelected(null)}
+            // >
+            //   <div className="text-sm">
+            //     <p className="font-semibold">{selected.name}</p>
+            //     {selected.averageRating !== null ? (
+            //       <p>Avg. Rating: {selected.averageRating.toFixed(1)} ⭐</p>
+            //     ) : (
+            //       <p>No ratings yet</p>
+            //     )}
+            //   </div>
+            // </InfoWindow>
+
             <InfoWindow
               position={{
                 lat: parseFloat(selected.latitude),
@@ -289,13 +306,47 @@ const MapView = () => {
               }}
               onCloseClick={() => setSelected(null)}
             >
-              <div className="text-sm">
-                <p className="font-semibold">{selected.name}</p>
-                {selected.averageRating !== null ? (
-                  <p>Avg. Rating: {selected.averageRating.toFixed(1)} ⭐</p>
-                ) : (
-                  <p>No ratings yet</p>
-                )}
+              <div className="w-64 text-sm">
+                {/* Demo Image */}
+                <img
+                  src="https://indianexpress.com/wp-content/uploads/2015/02/toilets_759.jpg" // Replace this with selected.imageURL if available
+                  alt="Toilet"
+                  className="w-full h-32 object-cover rounded-t-md"
+                />
+
+                <div className="p-2">
+                  {/* Name */}
+                  <h3 className="text-lg font-bold mb-1">
+                    {selected.name || "Unnamed Toilet"}
+                  </h3>
+
+                  {/* Address - placeholder for now */}
+                  <p className="text-gray-600 text-xs mb-2">
+                    Near Gali No 4, Chota Tajbagh, Nagpur 440024
+                  </p>
+
+                  {/* Hygiene Rating */}
+                  {selected.averageRating !== null ? (
+                    <p className="text-sm mb-1">
+                      <span className="font-semibold">Hygiene Rating:</span>{" "}
+                      {selected.averageRating.toFixed(1)} ⭐ (
+                      {selected.ratingCount || 0} ratings)
+                    </p>
+                  ) : (
+                    <p className="text-sm mb-1 text-gray-500">No ratings yet</p>
+                  )}
+
+                  {/* Washroom Type */}
+                  <p className="text-sm mb-1">
+                    <span className="font-semibold">Type:</span>{" "}
+                    {selected.type || "Unisex"}
+                  </p>
+
+                  {/* Accessibility & Other Notes */}
+                  <p className="text-xs text-gray-500 italic">
+                    🚻 Wheelchair accessible, 🆓 Free to use
+                  </p>
+                </div>
               </div>
             </InfoWindow>
           )}

@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { fetchToiletFeatures } from "../../lib/api/configurationsApi.js";
+// import { fetchToiletFeatures } from "../../lib/api/configurationsApi.js";
+import { fetchToiletFeaturesByName } from "../../lib/api/configurationsApi.js";
 import DynamicOptions from "./components/DynamicOptions";
 // import DynamicOptions from './locationComponents/components/DynamicOptions';
 import LocationSearchInput from "./components/LocationSearchInput";
@@ -30,7 +31,7 @@ export default function AddLocationPage() {
     async function loadInitialData() {
       try {
         const [config, types] = await Promise.all([
-          fetchToiletFeatures(),
+          fetchToiletFeaturesByName("cleaner_config"),
           locationTypesApi.getAll(),
         ]);
 
@@ -49,20 +50,41 @@ export default function AddLocationPage() {
     setForm((prev) => ({ ...prev, [key]: value }));
   };
 
+  // const handleSubmit = async (e) => {
+
+  //   e.preventDefault();
+  //   console.log("Form Data:", form);
+
+  //   try {
+  //     const res = await LocationsApi.postLocation(form);
+  //     console.log(res , "form submitted sucessfuly");
+  //   } catch (error) {
+  //     throw new error();
+  //   }
+  //   // You’ll connect to POST API here later
+  // };
+
+  // console.log(locationTypes , "location types");
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Form Data:", form);
 
     try {
       const res = await LocationsApi.postLocation(form);
-      console.log(res , "form submitted sucessfuly");
+      console.log(res, "form submitted successfully");
+
+      // Redirect to Google Maps in new window
+      const { latitude, longitude } = form;
+      if (latitude && longitude) {
+        const mapUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
+        window.open(mapUrl, "_blank");
+      }
     } catch (error) {
-      throw new error();
+      console.error("Submission error:", error);
     }
-    // You’ll connect to POST API here later
   };
 
-  // console.log(locationTypes , "location types");
   return (
     <div className="p-6 max-w-3xl mx-auto">
       <h1 className="text-2xl font-semibold mb-4">Add New Location</h1>

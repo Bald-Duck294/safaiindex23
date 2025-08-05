@@ -32,7 +32,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("cleaner_user");
+    const storedUser = localStorage.getItem("cleaner_user"); // make it user only
     if (storedUser) {
       try {
         setUser(JSON.parse(storedUser));
@@ -44,9 +44,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
   const isAdmin = user?.role_id === 1;
 
+  console.log(user , "user");
+
   const adminMenuItems = [
-    { icon: Home, label: "Dashboard", href: "/dashboard" },
-    { icon: Building2, label: "Locations", href: "/locations" },
+    { icon: Home, label: "Dashboard", href: "/locations" },
+    // { icon: Building2, label: "Locations", href: "/locations" },
     {
       icon: Folder,
       label: "Location Types",
@@ -159,14 +161,16 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
         className={`
           relative bg-white text-slate-900 shadow-xl border-r border-slate-200
           transition-all duration-300 ease-in-out h-full flex flex-col
-          ${sidebarOpen ? "w-64" : "w-16"}
+          
+          ${sidebarOpen ? "max-w-400" : "w-16"}
           ${isMobile && !sidebarOpen ? "hidden" : ""}
+          z-50
         `}
       >
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-slate-200 bg-slate-50 min-h-[60px]">
           {sidebarOpen && (
-            <h1 className="text-lg font-semibold text-slate-900 tracking-wide">
+            <h1 className="text-lg ml-[3rem] font-semibold text-slate-900 tracking-wide">
               Dashboard
             </h1>
           )}

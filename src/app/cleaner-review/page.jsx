@@ -728,6 +728,7 @@ const translations = {
 export default function SubmitReview({ lang = "en" }) {
   const params = useParams();
   const toiletIdFromUrl = params?.id?.toString() || "";
+  const [user, setUser] = useState(null);
 
   const [currentLang, setCurrentLang] = useState(lang || "en");
   const [showSuccess, setShowSuccess] = useState(false);
@@ -747,6 +748,18 @@ export default function SubmitReview({ lang = "en" }) {
   // Validation states
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
+  useEffect(() => {
+    const storedUser = localStorage.getItem("cleaner_user"); // make it user only
+    if (storedUser) {
+      try {
+        setUser(JSON.parse(storedUser));
+      } catch (err) {
+        console.error("Error parsing user from localStorage");
+      }
+    }
+  }, []);
+  // const isAdmin = user?.role_id === 1;
+  console.log(user, "user-cleaner");
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -906,7 +919,7 @@ export default function SubmitReview({ lang = "en" }) {
     setTouched((prev) => ({ ...prev, name: true }));
   };
 
-   const handleToiletIdChange = (e) => {
+  const handleToiletIdChange = (e) => {
     const value = e.target.value;
     // Allow only up to 100 characters
     console.log("HandleToiletIdChange:", e.target.value);
@@ -968,6 +981,7 @@ export default function SubmitReview({ lang = "en" }) {
 
       const formData = new FormData();
       formData.append("name", name);
+      formData.append("user_id", user?.id);
       formData.append("site_id", toiletId);
       formData.append("phone", phone);
       formData.append("remarks", remarks);
